@@ -226,8 +226,36 @@ def summarize_notes() -> str:
 # ==============================================================================
 
 def main() -> None:
-    """Run the MCP server over standard I/O."""
-    app.run(transport="stdio")
+    """Run the MCP server with configurable transport."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the sample MCP server.")
+    parser.add_argument(
+        "--transport",
+        choices=["stdio", "sse", "streamable-http"],
+        default="stdio",
+        help="Transport protocol: 'stdio' (for local desktop clients) or 'sse' / 'streamable-http' (for web/ChatGPT)",
+    )
+    parser.add_argument(
+        "--host",
+        default="127.0.0.1",
+        help="Host interface to bind to (default: 127.0.0.1)",
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8000,
+        help="Port to listen on (default: 8000)",
+    )
+
+    args = parser.parse_args()
+
+    if args.transport == "stdio":
+        app.run(transport="stdio")
+    else:
+        endpoint = "/sse" if args.transport == "sse" else "/mcp"
+        print(f"Starting MCP server with {args.transport} transport at http://{args.host}:{args.port}{endpoint}")
+        app.run(transport=args.transport, host=args.host, port=args.port)
 
 
 if __name__ == "__main__":

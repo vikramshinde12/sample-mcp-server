@@ -143,6 +143,23 @@ Add to `mcp_config.json`:
 }
 ```
 
+### ChatGPT (Web & Desktop)
+Because ChatGPT runs remotely, it connects to MCP servers over **HTTP/SSE** rather than local `stdio`:
+
+1. Start the server in SSE mode:
+   ```bash
+   uv run sample-mcp-server --transport sse --port 8000
+   ```
+2. Expose your local port via an HTTPS tunnel (e.g. using [ngrok](https://ngrok.com)):
+   ```bash
+   ngrok http 8000
+   ```
+3. In ChatGPT:
+   - Go to **Settings** > **Advanced / Features** > enable **Developer Mode**.
+   - Navigate to **MCP Servers** (or Plugins / Connectors) and click **Add custom MCP server**.
+   - Set **Server URL** to your HTTPS tunnel endpoint: `https://<your-ngrok-url>/sse`.
+   - Set **Authentication** to `None`.
+
 ---
 
 ## 🧪 Running Tests
