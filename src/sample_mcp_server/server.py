@@ -255,7 +255,13 @@ def main() -> None:
     else:
         endpoint = "/sse" if args.transport == "sse" else "/mcp"
         print(f"Starting MCP server with {args.transport} transport at http://{args.host}:{args.port}{endpoint}")
-        app.run(transport=args.transport, host=args.host, port=args.port)
+        try:
+            from mcp.server.transport_security import TransportSecuritySettings
+            # Disable local DNS rebinding protection so tunnels (e.g. ngrok, Cloudflare) and remote clients can connect
+            sec = TransportSecuritySettings(enable_dns_rebinding_protection=False)
+            app.run(transport=args.transport, host=args.host, port=args.port, transport_security=sec)
+        except (ImportError, TypeError):
+            app.run(transport=args.transport, host=args.host, port=args.port)
 
 
 if __name__ == "__main__":
