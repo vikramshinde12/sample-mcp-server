@@ -63,7 +63,7 @@ This project demonstrates all three core primitives of the Model Context Protoco
 Clone this repository and install dependencies:
 
 ```bash
-git clone https://github.com/<your-username>/sample-mcp-server.git
+git clone https://github.com/vikramshinde12/sample-mcp-server.git
 cd sample-mcp-server
 
 # Using uv (fast & recommended)
