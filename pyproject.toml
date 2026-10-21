@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sample-mcp-server"
+version = "0.1.0"
+description = "A sample Model Context Protocol (MCP) server in Python demonstrating tools, resources, and prompts"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+keywords = ["mcp", "model-context-protocol", "ai", "llm", "tools"]
+authors = [
+    { name = "Vikram Shinde" }
+]
+dependencies = [
+    "mcp[cli]>=2.3.0",
+]
+
+[project.scripts]
+sample-mcp-server = "sample_mcp_server.server:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+]
